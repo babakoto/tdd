@@ -9,16 +9,6 @@
       "id": 2,
       "name": "Samsung",
       "price": 500
-    },
-    {
-      "id": 3,
-      "name": "Nokia",
-      "price": 150
-    },
-    {
-      "id": 4,
-      "name": "ZTE",
-      "price": 50
     }
   ],
   "users": [{"id": 1, "email": "toto@test.com", "password": "123456"},{"id": 2, "email": "tata@test.com", "password": "123456"}

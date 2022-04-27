@@ -69,4 +69,26 @@ void main() {
     final result = serverSourceImp.findItems();
     expect(result, throwsA(const TypeMatcher<ServerException>()));
   });
+
+  const tId = 1;
+  const tItemModel = ItemModel(id: tId, name: "Nokia", price: 200);
+  const itemJson = '{"id":1, "name":"Nokia","price":200}';
+
+  group("FindItemById", () {
+    test("When status 200 return ItemModel", () async {
+      when(client.get(Uri.parse("http://localhost:3000/items/$tId")))
+          .thenAnswer((_) async => http.Response(itemJson, 200));
+      // ACT
+      final result = await serverSourceImp.findItemById(id: tId);
+      expect(result, tItemModel);
+    });
+
+    test("When status 404 return NotFoundException", () async {
+      when(client.get(Uri.parse("http://localhost:3000/items/$tId")))
+          .thenAnswer((_) async => http.Response("Message error", 404));
+      // ACT
+      final result = serverSourceImp.findItemById(id: tId);
+      expect(result, throwsA(const TypeMatcher<NotFoundException>()));
+    });
+  });
 }

@@ -1,6 +1,6 @@
 import 'package:clean_tdd_bloc/core/generics/multi_result.dart';
 import 'package:clean_tdd_bloc/domain/domain.dart';
-import 'package:clean_tdd_bloc/domain/usecases/find_items_usecase.dart';
+import 'package:clean_tdd_bloc/domain/usecases/items/find_items_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

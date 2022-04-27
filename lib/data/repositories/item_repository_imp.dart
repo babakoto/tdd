@@ -34,4 +34,17 @@ class ItemRepositoryImp implements ItemRepository {
       return Error(NetworkFailure());
     }
   }
+
+  @override
+  Future<Result<Failure, ItemEntity>> findItemById({int? id}) async {
+    try {
+      await networkSource.isOnline();
+      final result = await serverSource.findItemById(id: id);
+      return Success(result!);
+    } on ServerException {
+      return Error(ServerFailure());
+    } on NotFoundException {
+      return Error(NotFoundFailure());
+    }
+  }
 }

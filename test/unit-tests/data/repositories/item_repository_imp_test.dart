@@ -58,9 +58,14 @@ void main() {
     )
   ];
 
+  const tParam = 1;
+  const tItemModel = ItemModel(id: tParam, name: "Nokia", price: 200);
+
   group("ONLINE", () {
-    test("Get List<Items> from Server", () async {
+    setUp(() {
       when(networkSource.isOnline()).thenAnswer((_) async => true);
+    });
+    test("Get List<Items> from Server", () async {
       when(serverSource.findItems()).thenAnswer((_) async => tItemsModel);
       final result = await itemRepositoryImp.findItems();
       verify(networkSource.isOnline());
@@ -73,6 +78,30 @@ void main() {
       final result = await itemRepositoryImp.findItems();
       verify(networkSource.isOnline());
       expect(result, equals(Error(ServerFailure())));
+    });
+
+    group("FindItemById", () {
+      test("Should return Success<ItemEntity>", () async {
+        when(serverSource.findItemById(id: tParam)).thenAnswer(
+          (_) async => tItemModel,
+        );
+        final result = await itemRepositoryImp.findItemById(id: tParam);
+        expect(result, const Success(tItemModel));
+      });
+
+      test("Should return ServerFailure", () async {
+        when(serverSource.findItemById(id: tParam))
+            .thenThrow(ServerException());
+        final result = await itemRepositoryImp.findItemById(id: tParam);
+        expect(result, Error(ServerFailure()));
+      });
+
+      test("Should return NotFoundFailure", () async {
+        when(serverSource.findItemById(id: tParam))
+            .thenThrow(NotFoundException());
+        final result = await itemRepositoryImp.findItemById(id: tParam);
+        expect(result, Error(NotFoundFailure()));
+      });
     });
   });
 

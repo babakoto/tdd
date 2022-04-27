@@ -29,4 +29,21 @@ class ServerSourceImp implements ServerSource {
       throw ServerException();
     }
   }
+
+  @override
+  Future<ItemModel?> findItemById({int? id}) async {
+    try {
+      final result =
+          await client.get(Uri.parse("http://localhost:3000/items/$id"));
+      if (result.statusCode == 200) {
+        ItemModel itemModel = ItemModel.fromJson(jsonDecode(result.body));
+        return itemModel;
+      } else if (result.statusCode == 404) {
+        throw NotFoundException();
+      }
+    } on SocketException {
+      throw ServerException();
+    }
+    return null;
+  }
 }

@@ -48,6 +48,11 @@ class MockServerSource extends _i1.Mock implements _i5.ServerSource {
       (super.noSuchMethod(Invocation.method(#findItems, []),
               returnValue: Future<List<_i4.ItemModel>>.value(<_i4.ItemModel>[]))
           as _i3.Future<List<_i4.ItemModel>>);
+  @override
+  _i3.Future<_i4.ItemModel?> findItemById({int? id}) =>
+      (super.noSuchMethod(Invocation.method(#findItemById, [], {#id: id}),
+              returnValue: Future<_i4.ItemModel?>.value())
+          as _i3.Future<_i4.ItemModel?>);
 }
 
 /// A class which mocks [NetworkSource].
